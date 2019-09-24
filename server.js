@@ -1,6 +1,7 @@
-let express = require('express')
-let request = require('request')
-let querystring = require('querystring')
+const express = require('express')
+const request = require('request')
+const querystring = require('querystring')
+const env = require('dotenv').config()
 
 let app = express()
 
@@ -9,6 +10,7 @@ let redirect_uri =
   'http://localhost:8888/callback'
 
 app.get('/login', function(req, res) { 
+  //console.log()
   res.redirect('https://accounts.spotify.com/authorize?' +
     querystring.stringify({
       response_type: 'code',
@@ -36,7 +38,7 @@ app.get('/callback', function(req, res) {
   }
   request.post(authOptions, function(error, response, body) {
     var access_token = body.access_token
-    let uri = process.env.FRONTEND_URI || 'http://localhost:3000'
+    let uri = process.env.FRONTEND_URI || 'http://localhost:8888/callback'
     res.redirect(uri + '?access_token=' + access_token)
   })
 })
